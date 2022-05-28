@@ -1,4 +1,3 @@
-from email.utils import localtime
 import logging
 from wsgiref.handlers import format_date_time
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
@@ -7,11 +6,11 @@ import ephem
 from telegram.update import Update
 from telegram.ext.callbackcontext import CallbackContext
 from datetime import datetime 
+from calculator import calculator
 
 logging.basicConfig(filename='bot.log', format='%(asctime)s - %(message)s', level=logging.INFO)
 
-# PROXY = {'proxy_url': settings.PROXY_URL,
-#     'urllib3_proxy_kwargs': {'username': settings.PROXY_USERNAME, 'password': settings.PROXY_PASSWORD}}
+
 
 def greet_user(update, contex):
     print('Вызван /start')
@@ -31,20 +30,33 @@ def get_planet(update: Update, contex: CallbackContext):
         class_planet.compute(current_time)
         print(class_planet)
         update.message.reply_text(ephem.constellation(class_planet))
-                
 
+
+
+def calculator_user(update: Update, contex):
+    cal_user = update.message.text.split(' ')
+    print(cal_user)
+    if len(cal_user[1]) == 1:
+        update.message.reply_text('Введите выражение, которое необхоимо посчитать')
+    else:
+        update.message.reply_text(calculator(cal_user[1]))
+
+
+                
 def talk_to_me(update, contex):
     text = update.message.text
     print(text)
     update.message.reply_text(text)
 
 
+
 def main():
-    mybot = Updater(settings.API_KEY, use_context=True) # request_kwargs=PROXY
+    mybot = Updater(settings.API_KEY, use_context=True)
 
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start', greet_user))
     dp.add_handler(CommandHandler('planet', get_planet))
+    dp.add_handler(CommandHandler('calculator', calculator_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
     logging.info("Bot started")
