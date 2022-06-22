@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import requests
-from bs4 import BeautifulSoup
 import time
 
 
@@ -26,4 +25,3 @@ if __name__ == "__main__":
     # if html:
     #     with open("date.html", "w", encoding="utf-8") as f:
     #         f.write(html)
-

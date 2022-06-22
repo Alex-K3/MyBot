@@ -5,6 +5,6 @@ settings.py
 env/
 .DS_Store
 __pycache__/
-test.py
-images/
-README.md
+visa_wait_times.py
+chromedriver.exe
+downloads/

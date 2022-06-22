@@ -12,7 +12,7 @@ def calculator(string):
             parts[plus] = precalculator(parts[plus])
 
         result = sum(parts)
-    
+
     except ValueError:
         result = 'Введите данные корректно!'
 
